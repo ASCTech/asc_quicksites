@@ -1,0 +1,128 @@
+<?php
+// $Id$
+/**
+ * Install QuickSites - creates non-importable content that features is unable to import
+ *
+ * @file
+ */
+
+/**
+ * Implementation of hook_install().
+ */
+function asc_quicksites_install() {
+  
+  // Prepare the SQL for custom_breadcrumb
+  $custom_breadcrumb_qry = "
+    INSERT INTO {custom_breadcrumb}
+    (titles, paths, visibility_php, node_type)
+    VALUES
+    ('News', 'news', '', 'qs_news'),
+    ('Events', 'events', '', 'qs_events'),
+    ('People', 'directory', '', 'qs_people')
+  ";
+  
+  // Run the custom_breadcrumb query
+  $runquery = db_query($custom_breadcrumb_qry);
+  unset($runquery);
+  unset($custom_breadcrumb_qry);
+  
+  // Prepare the SQL for date_formats
+  $date_formats_qry = "
+    INSERT INTO {date_formats} 
+    (format, type, locked)
+    VALUES
+    ('n/j/Y', 'custom', 0)
+  ";
+  // Run the date_formats query
+  $runquery = db_query($date_formats_qry);
+  unset($runquery);
+  unset($date_formats_qry);
+  
+  // Prepare the SQL for pathauto variables for news, events and people
+  $pathauto_qry = "
+    INSERT INTO {variable} (name, value)
+    VALUES
+    ('pathauto_node_events_pattern', 's:18:\"events/[title-raw]\";'),
+    ('pathauto_node_news_pattern', 's:16:\"news/[title-raw]\";'),
+    ('pathauto_node_people_pattern', 's:46:\"people/[field_ascpeople_first-raw]-[title-raw]\";')
+  ";
+  // Run the PathAuto query
+  $runquery = db_query($pathauto_qry);
+  unset($runquery);
+  unset($pathauto_qry);
+  
+  // Prepare the SQL for pathauto variables for node_pattern update
+  $pathauto_qry = "
+    UPDATE {variable} 
+    SET value = 's:11:\"[title-raw]\";'
+    WHERE name = 'pathauto_node_pattern'
+  ";
+  // Run the PathAuto query
+  $runquery = db_query($pathauto_qry);
+  unset($runquery);
+  unset($pathauto_qry);
+  
+  // Prepare the SQL for formatters
+  $formatters_qry = "
+  INSERT INTO {formatters} 
+  (name, label, field_types, multiple, description, mode, code, status)
+  VALUES
+  ('image_alt', 'Image with Alt and Title', '%s', 0, '', 'advanced', X'72657475726E20223C696D67207372633D5C222F7B24656C656D656E745B27236974656D275D5B2766696C6570617468275D7D5C2220616C743D5C227B24656C656D656E745B27236E6F6465275D2D3E7469746C657D5C22207469746C653D5C227B24656C656D656E745B27236E6F6465275D2D3E7469746C657D5C22202F3E223B', 1),
+  ('newline_to_br', 'Newline to BR', '%s', 0, '', 'advanced', X'72657475726E207374725F7265706C61636528225C6E222C20223C62722F3E222C2024656C656D656E745B27236974656D275D5B2776616C7565275D293B', 1),
+  ('phone', 'Phone Number', '%s', 0, '', 'advanced', X'2464656661756C745F617265615F636F6465203D2022363134223B0D0A0D0A2470686F6E65203D2024656C656D656E745B27236974656D275D5B2776616C7565275D3B0D0A2470686F6E655F73706C6974203D20617272617928293B0D0A707265675F6D6174636828272F28285C283F285B302D395D7B337D295C293F5B2E202D5D3F293F285B302D395D7B337D295B2E202D5D3F285B302D395D7B347D29292F272C202470686F6E652C202470686F6E655F73706C6974293B0D0A0D0A6966282470686F6E655F73706C69745B345D202626202470686F6E655F73706C69745B355D202626202470686F6E655F73706C69745B335D207C7C20636F756E74282464656661756C745F617265615F636F646529297B0D0A202020206966282470686F6E655F73706C69745B335D297B0D0A202020202020202024617265615F636F6465203D202470686F6E655F73706C69745B335D2E2720273B0D0A202020207D656C73657B0D0A202020202020202024617265615F636F6465203D202464656661756C745F617265615F636F64652E2720273B0D0A202020207D0D0A202020202470686F6E65203D2024617265615F636F64652E2470686F6E655F73706C69745B345D2E272D272E2470686F6E655F73706C69745B355D3B0D0A7D0D0A0D0A72657475726E202470686F6E653B', 1);
+  ";
+  // Run the formatters query
+  $runquery = db_query($formatters_qry, serialize(array('filefield')), serialize(array('text')), serialize(array('text')));
+  unset($runquery);
+
+} // function asc_quicksites_install()
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function asc_quicksites_uninstall() {
+  
+  // Prepare the SQL for custom_breadcrumb
+  $custom_breadcrumb_qry = "
+    DELETE FROM {custom_breadcrumb}
+    WHERE node_type = 'qs_news'
+    OR node_type = 'qs_events'
+    OR node_type = 'qs_people'
+  ";
+
+  // Run the custom_breadcrumb query
+  $runquery = db_query($custom_breadcrumb_qry);
+  unset($runquery);
+  
+  // Prepare the SQL for date_formats
+  $date_formats_qry = "
+    DELETE FROM {date_formats}
+    WHERE format = 'n/j/Y'
+  ";
+  // Run the date_formats query
+  $runquery = db_query($date_formats_qry);
+  unset($runquery);
+
+  // Prepare the SQL for PathAuto
+  $pathauto_qry = "
+    DELETE FROM {variable}
+    WHERE name = 'pathauto_node_events_pattern'
+    OR name = 'pathauto_node_news_pattern'
+    OR name = 'pathauto_node_people_pattern'
+  ";
+  // Run the date_formats query
+  $runquery = db_query($pathauto_qry);
+  unset($runquery);
+  
+  // Prepare the SQL for formatters
+  $formatters_qry = "
+    DELETE FROM {formatters}
+    WHERE name = 'image_alt'
+    OR name = 'newline_to_br'
+    OR name = 'phone'
+  ";
+  // Run the formatters query
+  $runquery = db_query($formatters_qry);
+  unset($runquery);
+
+} // function asc_quicksites_uninstall()
