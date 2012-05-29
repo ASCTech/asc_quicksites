@@ -4,7 +4,6 @@ description = Helper module for QuickSites
 dependencies[] = "calendar"
 dependencies[] = "content"
 dependencies[] = "content_copy"
-dependencies[] = "contemplate"
 dependencies[] = "custom_formatters"
 dependencies[] = "custom_breadcrumbs"
 dependencies[] = "date"
