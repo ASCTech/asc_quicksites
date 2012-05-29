@@ -55,20 +55,8 @@ function asc_quicksites_block($op = 'list', $delta = 0, $edit = array()) {
       // Initialize the base_url variable
       global $base_url;
       
-      if ($current_letter == '') {
-        $block_content .= '<ul><li><a class="selected" href="' . $base_url . '/directory/" title="View all people.">All</a></li>';
-      }
-      else {
-        $block_content .= '<ul><li><a href="' . $base_url . '/directory/" title="View all people.">All</a></li>';
-      }
-
       while ($row = db_fetch_object($result)) {
-        if ($current_letter == $row->title_truncated) {
-          $block_content .= '<li><a class="selected" href="' . $base_url . '/' . 'directory/' . $row->title_truncated . '" title="View people with last names that begin with &quot;' . $row->title_truncated . '&quot;">' . strtoupper($row->title_truncated) . '</a></li>';
-        }
-        else {
-          $block_content .= '<li><a href="' . $base_url . '/' . 'directory/' . $row->title_truncated . '" title="View people with last names that begin with &quot;' . $row->title_truncated . '&quot;">' . strtoupper($row->title_truncated) . '</a></li>';
-        }
+        $block_content .= '<li><a class="selected" href="#" title="Jump to last names starting with &quot;' . $row->title_truncated . '&quot;">' . strtoupper($row->title_truncated) . '</a></li>';
       }
       $block_content .= '</ul>';
       $block_content .= '</div>';
@@ -84,4 +72,7 @@ function asc_quicksites_block($op = 'list', $delta = 0, $edit = array()) {
 
     return $block;
 
-} // function asc_quicksites_block
+} // unction asc_quicksites_block
+
+drupal_add_js(drupal_get_path('module', 'asc_quicksites') .'/letter_jump.js');
+
