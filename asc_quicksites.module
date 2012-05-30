@@ -78,14 +78,14 @@ function asc_quicksites_backtop_block($op = 'list', $delta = 0, $edit = array())
   $block = array();
 
   if ($op == 'list') {
-    $block[0]["info"] = t('Back to Top Link')
+    $block[0]["info"] = t('Back to Top Link');
   }
   elseif ($op == 'view') {
     $content = '<div id="backtotop" style="position: fixed; bottom: 20px;"><a href="#">Back to Top</a></div>';
 
     $block['subject'] = 'People Index';
 
-    $block['content'] = $block_content;
+    $block['content'] = $content;
     
   }
 
