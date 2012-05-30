@@ -56,7 +56,7 @@ function asc_quicksites_block($op = 'list', $delta = 0, $edit = array()) {
       global $base_url;
       
       while ($row = db_fetch_object($result)) {
-        $block_content .= '<li><a class="selected" href="#" title="Jump to last names starting with &quot;' . $row->title_truncated . '&quot;">' . strtoupper($row->title_truncated) . '</a></li>';
+        $block_content .= '<li><a class="letter-select" href="#" title="Jump to last names starting with &quot;' . $row->title_truncated . '&quot;">' . strtoupper($row->title_truncated) . '</a></li>';
       }
       $block_content .= '</ul>';
       $block_content .= '</div>';
