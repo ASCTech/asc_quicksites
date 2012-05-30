@@ -1,7 +1,8 @@
 Drupal.behaviors.myModuleBehavior = function (context) {
 
-  $("a").click(function(){
+  $("a.selected").click(function(){
     var letter = $(this).html();
+    $(this).css('color', '#990000')
     var firstItem = $("a." + letter).filter(':first');
     var top = firstItem.offset().top;
     $("body,html").animate({scrollTop: top - 75}, 400);
