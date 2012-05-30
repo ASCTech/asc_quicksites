@@ -7,4 +7,9 @@ Drupal.behaviors.myModuleBehavior = function (context) {
     $("body,html").animate({scrollTop: top}, 800);
   });
 
+  $("#backtotop").click(function(){
+    var top = $('body').top;
+    $("body,html").animate({scrollTop: top}, 800);
+  });
+
 };

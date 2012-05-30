@@ -56,7 +56,7 @@ function asc_quicksites_block($op = 'list', $delta = 0, $edit = array()) {
       global $base_url;
       
       while ($row = db_fetch_object($result)) {
-        $block_content .= '<li><a class="selected" title="Jump to last names starting with &quot;' . $row->title_truncated . '&quot;">' . strtoupper($row->title_truncated) . '</a></li>';
+        $block_content .= '<li><a class="selected" href="#" title="Jump to last names starting with &quot;' . $row->title_truncated . '&quot;">' . strtoupper($row->title_truncated) . '</a></li>';
       }
       $block_content .= '</ul>';
       $block_content .= '</div>';
@@ -73,6 +73,23 @@ function asc_quicksites_block($op = 'list', $delta = 0, $edit = array()) {
     return $block;
 
 } // unction asc_quicksites_block
+
+function asc_quicksites_backtop_block($op = 'list', $delta = 0, $edit = array()) {
+  $block = array();
+
+  if ($op == 'list') {
+    $block[0]["info"] = t('Back to Top Link')
+  }
+  elseif ($op == 'view') {
+    $content = '<div id="backtotop" style="position: fixed; bottom: 20px;"><a href="#">Back to Top</a></div>';
+
+    $block['subject'] = 'People Index';
+
+    $block['content'] = $block_content;
+    
+  }
+
+}
 
 drupal_add_js(drupal_get_path('module', 'asc_quicksites') .'/letter_jump.js');
 
