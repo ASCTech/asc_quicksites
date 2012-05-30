@@ -4,7 +4,7 @@ Drupal.behaviors.myModuleBehavior = function (context) {
     var letter = $(this).html();
     var firstItem = $("a." + letter).filter(':first');
     var top = firstItem.offset().top;
-    $("body,html").animate({scrollTop: top - 100}, 400);
+    $("body,html").animate({scrollTop: top - 75}, 400);
   });
 
   $("#backtotop").click(function(){
